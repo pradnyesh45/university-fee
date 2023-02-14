@@ -1,0 +1,25 @@
+{
+  "name": "feestructure",
+  "version": "1.0.0",
+  "description": "To run this project firstly clone this repository and then run below command in terminal",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/adarshchourasia/fee_viewer.git"
+  },
+  "author": "Pradnyesh Aglawe",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/adarshchourasia/fee_viewer/issues"
+  },
+  "homepage": "https://github.com/adarshchourasia/fee_viewer#readme",
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
+    "mysql": "^2.15.0"
+  }
+}
