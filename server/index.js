@@ -1,32 +1,80 @@
-const http = require("http");
-const fs = require("fs").promises;
+var express = require("express");
+var app = express();
+var fs = require("fs");
+const cors = require("cors");
+app.use(cors());
+app.use(express.json());
 
-const host = 'localhost';
-const port = 8000;
-
-let indexFile;
-const requestListener = function (req, res) {
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Methods', '*');
-  res.setHeader("Content-Type", "application/json");
-  res.writeHead(200);
-  res.end(indexFile);
-
-  req.on('error', (e) => {
-    console.log('problem with request: ' + e.message);
+app.get("/getData", function (req, res) {
+  fs.readFile(__dirname + "/" + "data.json", "utf8", function (err, data) {
+    res.end(data);
   });
-};
+});
 
-const server = http.createServer(requestListener);
+var server = app.listen(3000, () => {
+  var host = server.address().address;
+  var port = server.address().port;
+  console.log("Server Running", host, port);
+});
 
-fs.readFile(__dirname + "/data.json")
-    .then(contents => {
-        indexFile = contents;
-        server.listen(port, host, () => {
-            console.log(`Server is running on http://${host}:${port}`);
-        });
-    })
-    .catch(err => {
-        console.error(`Could not read data.json file: ${err}`);
-        process.exit(1);
-    });
+// Testing Mysql
+// const bodyParser = require("body-parser");
+// app.use(bodyParser.urlencoded());
+
+// const mysql = require("mysql");
+// const connection = mysql.createConnection({
+//   host: "localhost",
+//   user: "root",
+//   password: "Adarsh.1234",
+//   database: "fee_viewer",
+//   port: 3306,
+// });
+
+// connection.connect((err) => {
+//   if (err) {
+//     console.log(err.message);
+//   }
+//   console.log("db " + connection.state);
+// });
+
+app.get("/getTableData", (req, res) => {
+  connection.query("SELECT * from new_fees", (err, rows, fields) => {
+    if (!err) {
+      res.send(rows);
+    } else {
+      console.log(err);
+    }
+  });
+});
+
+app.get("/getTableData/:id", (req, res) => {
+  connection.query(
+    "SELECT * from new_fees where id = ?",
+    [req.params.id],
+    (err, rows, fields) => {
+      if (!err) {
+        res.send(rows);
+      } else {
+        console.log(err);
+      }
+    }
+  );
+});
+
+app.post("/enterTableData", (request, response) => {
+  const { fee_name, fee_amount } = request.body;
+  console.log("testing", request.body, fee_name);
+  connection.query(
+    "INSERT into new_fees(fee_name, amount) values(?, ?)",
+    [fee_name, fee_amount],
+    (err, rows, fields) => {
+      if (!err) {
+        response.send(rows);
+      } else {
+        console.log(err);
+      }
+    }
+  );
+});
+
+// End of Mysql Testing
