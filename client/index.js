@@ -115,11 +115,6 @@ function calculatePayment(data) {
     ans.removeAttribute("hidden");
     let fee_amount_net =
       data[fee_type][nationality_type][course_type][level_type]["amount"];
-    if (nationality_type == "INDIAN") {
-      fee_amount_net = fee_amount_net + fee_amount_net * 0.18;
-    } else {
-      fee_amount_net = fee_amount_net + fee_amount_net * 0.28;
-    }
     ans.innerHTML = "Fees Amount: " + fee_amount_net + " Rupees";
   });
 }
