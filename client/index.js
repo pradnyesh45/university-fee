@@ -1,4 +1,4 @@
-fetch("http://localhost:3000/getData")
+fetch("http://localhost:3000")
   .then((response) => response.json())
   .then((data) => calculatePayment(data));
 
@@ -118,22 +118,3 @@ function calculatePayment(data) {
     ans.innerHTML = "Fees Amount: " + fee_amount_net + " Rupees";
   });
 }
-
-// Testing
-const submitButton = document.querySelector("#submit-entry");
-
-submitButton.onclick = function () {
-  const fee_name = document.querySelector("#fee_name").value;
-  const fee_amount = document.querySelector("#fee_amount").value;
-  console.log(fee_name, fee_amount);
-  fetch("http://localhost:3000/enterTableData", {
-    headers: {
-      "Content-type": "application/json",
-    },
-    method: "POST",
-    body: JSON.stringify({
-      fee_name: fee_name,
-      fee_amount: fee_amount,
-    }),
-  });
-};

@@ -5,7 +5,7 @@ const cors = require("cors");
 app.use(cors());
 app.use(express.json());
 
-app.get("/getData", function (req, res) {
+app.get("/", function (req, res) {
   fs.readFile(__dirname + "/" + "data.json", "utf8", function (err, data) {
     res.end(data);
   });
